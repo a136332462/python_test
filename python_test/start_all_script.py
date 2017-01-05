@@ -2,43 +2,24 @@
 import time, os
 import unittest
 import HTMLTestRunner
-import smtplib
-from email.mime.text import MIMEText
+from public import send_mail
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-#========================定义发送邮件========================
-# def send_mail(file_new):
-# 	mail_from = 'my126sw@126.com'  #发信邮箱
-# 	mail_to = 'my126sw@126.com'   #收信邮箱
-# 	#定义正文
-# 	f = open(file_new, 'rb')
-# 	mail_body = f.read()
-# 	f.close()
-# 	msg = MIMEText(mail_body, _subtype = 'html', _charset = 'utf-8')
-# 	#定义标题
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#查找测试报告，调用发邮件功能 
+def sendreport():
+	result_dir =  (os.getcwd() + '/all_script/test_data/result/')
+	lists = os.listdir(result_dir)
+	lists.sort(key = lambda fn: os.path.getmtime(result_dir + '/' + fn)
+		if not os.path.isdir(result_dir + '/' + fn) else 0)
+	print(u'最新测试生成的报告:' + lists[-1])
+	#找到最新生成的文件
+	file_new = os.path.join(result_dir, lists[-1])
+	print file_new
+	#调用发邮件模块
+	send_mail.send_mail(file_new)
 
 #========================将测试用例添加到测试套件========================
 def creatsuite():
@@ -68,4 +49,6 @@ if __name__ == '__main__':
 	alltestnames = creatsuite()
 	runner.run(alltestnames)
 	fp.close()
+	sendreport()
+	
 

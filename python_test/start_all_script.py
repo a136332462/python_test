@@ -2,7 +2,7 @@
 import time, os
 import unittest
 import HTMLTestRunner
-from public import send_mail
+from send_mail import send_mail
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -49,6 +49,6 @@ if __name__ == '__main__':
 	alltestnames = creatsuite()
 	runner.run(alltestnames)
 	fp.close()
-	sendreport()
+	# sendreport()
 	
 
